@@ -1,10 +1,14 @@
 package com.fengxing.moreore;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,7 +20,7 @@ import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 /**
  * 矿石掉落：监听玩家破坏方块，直接给掉落物 + 经验。
  *
- * 26.x 的事件名是 BreakBlockEvent（旧版叫 BlockEvent.BreakEvent）。
+ * 支持精准采集（掉方块本身）与时运（多掉几倍）。
  */
 @EventBusSubscriber(modid = MoreOre.MODID)
 public final class OreDrops {
@@ -29,8 +33,7 @@ public final class OreDrops {
         BlockState state = event.getState();
         Block broken = state.getBlock();
 
-        ItemStack drop = dropFor(broken);
-        if (drop.isEmpty()) {
+        if (rawFor(broken).isEmpty()) {
             return;
         }
 
@@ -44,6 +47,19 @@ public final class OreDrops {
             return;
         }
 
+        ItemStack tool = player.getMainHandItem();
+        ItemStack drop;
+
+        if (enchantLevel(level, tool, Enchantments.SILK_TOUCH) > 0) {
+            drop = new ItemStack(broken);
+        } else {
+            drop = rawFor(broken);
+            int fortune = enchantLevel(level, tool, Enchantments.FORTUNE);
+            if (fortune > 0) {
+                drop.setCount(Math.max(1, level.getRandom().nextInt(fortune + 2)));
+            }
+        }
+
         Block.popResource(level, event.getPos(), drop);
 
         int xp = Mth.nextInt(level.getRandom(), xpFor(broken, true), xpFor(broken, false));
@@ -52,7 +68,12 @@ public final class OreDrops {
         }
     }
 
-    private static ItemStack dropFor(Block block) {
+    private static int enchantLevel(Level level, ItemStack stack, ResourceKey<Enchantment> key) {
+        var lookup = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        return stack.getEnchantmentLevel(lookup.getOrThrow(key));
+    }
+
+    private static ItemStack rawFor(Block block) {
         if (block == MoreOre.TIN_ORE.get() || block == MoreOre.DEEPSLATE_TIN_ORE.get()) {
             return new ItemStack(MoreOre.RAW_TIN.get());
         }
