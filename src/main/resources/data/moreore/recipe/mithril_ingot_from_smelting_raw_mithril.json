@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": "moreore:raw_mithril",
+  "result": { "id": "moreore:mithril_ingot", "count": 1 },
+  "experience": 1.2,
+  "cookingtime": 200
+}
