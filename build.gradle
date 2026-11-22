@@ -1,0 +1,80 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+    id 'idea'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+repositories {
+    maven {
+        name = 'NeoForgedMirror'
+        url = 'https://neoforged.forgecdn.net/releases'
+    }
+    mavenCentral()
+}
+
+// 本机编译时走镜像（官方源被墙）；CI 不传这个参数，直接走官方源。
+if (project.hasProperty('forgecdnOnly')) {
+    gradle.projectsEvaluated {
+        def dead = repositories.findAll { r ->
+            r.hasProperty('url') && r.url != null && r.url.toString().contains('maven.neoforged.net')
+        }
+        dead.each { repositories.remove(it) }
+        logger.lifecycle("[moreore] forgecdnOnly: dropped ${dead.size()} maven.neoforged.net repo(s)")
+    }
+}
+
+def javaVer = project.findProperty('build_java') ?: '25'
+java.toolchain.languageVersion = JavaLanguageVersion.of(javaVer as int)
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
