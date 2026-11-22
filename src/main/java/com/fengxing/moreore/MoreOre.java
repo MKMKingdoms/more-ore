@@ -2,6 +2,8 @@ package com.fengxing.moreore;
 
 import com.mojang.logging.LogUtils;
 
+import java.util.function.Supplier;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
@@ -9,14 +11,12 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -36,7 +36,7 @@ public class MoreOre {
     public static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // ================= 锭与粗矿（先注册，矿石掉落要引用） =================
+    // ================= 锭与粗矿 =================
     public static final DeferredItem<Item> TIN_INGOT = ITEMS.registerSimpleItem("tin_ingot", p -> p);
     public static final DeferredItem<Item> RAW_TIN = ITEMS.registerSimpleItem("raw_tin", p -> p);
     public static final DeferredItem<Item> SILVER_INGOT = ITEMS.registerSimpleItem("silver_ingot", p -> p);
@@ -45,21 +45,21 @@ public class MoreOre {
     public static final DeferredItem<Item> RAW_MITHRIL = ITEMS.registerSimpleItem("raw_mithril", p -> p);
 
     // ================= 矿石方块 =================
-    public static final DeferredBlock<Block> TIN_ORE =
+    public static final DeferredHolder<net.minecraft.world.level.block.Block, OreBlock> TIN_ORE =
             ore("tin_ore", 3.0F, false, () -> RAW_TIN.get(), 1, 3);
-    public static final DeferredBlock<Block> DEEPSLATE_TIN_ORE =
+    public static final DeferredHolder<net.minecraft.world.level.block.Block, OreBlock> DEEPSLATE_TIN_ORE =
             ore("deepslate_tin_ore", 4.5F, true, () -> RAW_TIN.get(), 1, 4);
-    public static final DeferredBlock<Block> SILVER_ORE =
+    public static final DeferredHolder<net.minecraft.world.level.block.Block, OreBlock> SILVER_ORE =
             ore("silver_ore", 3.0F, false, () -> RAW_SILVER.get(), 2, 5);
-    public static final DeferredBlock<Block> DEEPSLATE_SILVER_ORE =
+    public static final DeferredHolder<net.minecraft.world.level.block.Block, OreBlock> DEEPSLATE_SILVER_ORE =
             ore("deepslate_silver_ore", 4.5F, true, () -> RAW_SILVER.get(), 2, 6);
-    public static final DeferredBlock<Block> MITHRIL_ORE =
+    public static final DeferredHolder<net.minecraft.world.level.block.Block, OreBlock> MITHRIL_ORE =
             ore("mithril_ore", 4.0F, false, () -> RAW_MITHRIL.get(), 3, 7);
-    public static final DeferredBlock<Block> DEEPSLATE_MITHRIL_ORE =
+    public static final DeferredHolder<net.minecraft.world.level.block.Block, OreBlock> DEEPSLATE_MITHRIL_ORE =
             ore("deepslate_mithril_ore", 5.5F, true, () -> RAW_MITHRIL.get(), 3, 8);
 
-    private static DeferredBlock<Block> ore(String name, float hardness, boolean deepslate,
-                                            java.util.function.Supplier<Item> drop, int xpMin, int xpMax) {
+    private static DeferredHolder<net.minecraft.world.level.block.Block, OreBlock> ore(
+            String name, float hardness, boolean deepslate, Supplier<Item> drop, int xpMin, int xpMax) {
         BlockBehaviour.Properties props = BlockBehaviour.Properties.of()
                 .mapColor(deepslate ? MapColor.DEEPSLATE : MapColor.STONE)
                 .strength(hardness, 3.0F)
@@ -68,13 +68,18 @@ public class MoreOre {
         return BLOCKS.register(name, () -> new OreBlock(props, drop, xpMin, xpMax));
     }
 
-    // ================= 方块对应物品 =================
-    public static final DeferredItem<BlockItem> TIN_ORE_ITEM = ITEMS.registerSimpleBlockItem("tin_ore", TIN_ORE);
-    public static final DeferredItem<BlockItem> DEEPSLATE_TIN_ORE_ITEM = ITEMS.registerSimpleBlockItem("deepslate_tin_ore", DEEPSLATE_TIN_ORE);
-    public static final DeferredItem<BlockItem> SILVER_ORE_ITEM = ITEMS.registerSimpleBlockItem("silver_ore", SILVER_ORE);
-    public static final DeferredItem<BlockItem> DEEPSLATE_SILVER_ORE_ITEM = ITEMS.registerSimpleBlockItem("deepslate_silver_ore", DEEPSLATE_SILVER_ORE);
-    public static final DeferredItem<BlockItem> MITHRIL_ORE_ITEM = ITEMS.registerSimpleBlockItem("mithril_ore", MITHRIL_ORE);
-    public static final DeferredItem<BlockItem> DEEPSLATE_MITHRIL_ORE_ITEM = ITEMS.registerSimpleBlockItem("deepslate_mithril_ore", DEEPSLATE_MITHRIL_ORE);
+    // ================= 方块对应物品（手动注册，避开辅助方法的签名差异） =================
+    public static final DeferredItem<BlockItem> TIN_ORE_ITEM = blockItem("tin_ore", TIN_ORE);
+    public static final DeferredItem<BlockItem> DEEPSLATE_TIN_ORE_ITEM = blockItem("deepslate_tin_ore", DEEPSLATE_TIN_ORE);
+    public static final DeferredItem<BlockItem> SILVER_ORE_ITEM = blockItem("silver_ore", SILVER_ORE);
+    public static final DeferredItem<BlockItem> DEEPSLATE_SILVER_ORE_ITEM = blockItem("deepslate_silver_ore", DEEPSLATE_SILVER_ORE);
+    public static final DeferredItem<BlockItem> MITHRIL_ORE_ITEM = blockItem("mithril_ore", MITHRIL_ORE);
+    public static final DeferredItem<BlockItem> DEEPSLATE_MITHRIL_ORE_ITEM = blockItem("deepslate_mithril_ore", DEEPSLATE_MITHRIL_ORE);
+
+    private static DeferredItem<BlockItem> blockItem(
+            String name, DeferredHolder<net.minecraft.world.level.block.Block, ? extends net.minecraft.world.level.block.Block> block) {
+        return ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    }
 
     // ================= 创造页 =================
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ORE_TAB =
