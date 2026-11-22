@@ -1,0 +1,17 @@
+{
+  "itemGroup.moreore.ores": "更多矿石",
+
+  "block.moreore.tin_ore": "锡矿石",
+  "block.moreore.deepslate_tin_ore": "深层锡矿石",
+  "block.moreore.silver_ore": "银矿石",
+  "block.moreore.deepslate_silver_ore": "深层银矿石",
+  "block.moreore.mithril_ore": "秘银矿石",
+  "block.moreore.deepslate_mithril_ore": "深层秘银矿石",
+
+  "item.moreore.tin_ingot": "锡锭",
+  "item.moreore.raw_tin": "粗锡",
+  "item.moreore.silver_ingot": "银锭",
+  "item.moreore.raw_silver": "粗银",
+  "item.moreore.mithril_ingot": "秘银锭",
+  "item.moreore.raw_mithril": "粗秘银"
+}

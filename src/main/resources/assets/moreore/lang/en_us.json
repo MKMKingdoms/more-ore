@@ -1,0 +1,17 @@
+{
+  "itemGroup.moreore.ores": "More Ores",
+
+  "block.moreore.tin_ore": "Tin Ore",
+  "block.moreore.deepslate_tin_ore": "Deepslate Tin Ore",
+  "block.moreore.silver_ore": "Silver Ore",
+  "block.moreore.deepslate_silver_ore": "Deepslate Silver Ore",
+  "block.moreore.mithril_ore": "Mithril Ore",
+  "block.moreore.deepslate_mithril_ore": "Deepslate Mithril Ore",
+
+  "item.moreore.tin_ingot": "Tin Ingot",
+  "item.moreore.raw_tin": "Raw Tin",
+  "item.moreore.silver_ingot": "Silver Ingot",
+  "item.moreore.raw_silver": "Raw Silver",
+  "item.moreore.mithril_ingot": "Mithril Ingot",
+  "item.moreore.raw_mithril": "Raw Mithril"
+}
