@@ -39,8 +39,8 @@ public final class OreDrops {
             return;
         }
 
-        Level level = event.getLevel();
-        if (level == null || level.isClientSide()) {
+        // getLevel() 返回 LevelAccessor，实际运行时是 ServerLevel
+        if (!(event.getLevel() instanceof Level level) || level.isClientSide()) {
             return;
         }
 
