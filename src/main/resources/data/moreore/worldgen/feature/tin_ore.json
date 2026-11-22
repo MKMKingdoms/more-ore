@@ -8,14 +8,14 @@
         "predicate_type": "minecraft:tag_match",
         "tag": "minecraft:stone_ore_replaceables"
       },
-      "state": { "Name": "moreore:tin_ore" }
+      "state": "moreore:tin_ore"
     },
     {
       "target": {
         "predicate_type": "minecraft:tag_match",
         "tag": "minecraft:deepslate_ore_replaceables"
       },
-      "state": { "Name": "moreore:deepslate_tin_ore" }
+      "state": "moreore:deepslate_tin_ore"
     }
   ]
 }
