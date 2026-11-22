@@ -11,12 +11,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 
 /**
- * 矿石掉落：监听破坏方块事件，直接给掉落物 + 经验。
+ * 矿石掉落：监听玩家破坏方块，直接给掉落物 + 经验。
  *
- * 不重写 Block 的内部方法（26.x 里签名变过），也不依赖战利品表。
+ * 26.x 的事件名是 BreakBlockEvent（旧版叫 BlockEvent.BreakEvent）。
  */
 @EventBusSubscriber(modid = MoreOre.MODID)
 public final class OreDrops {
@@ -25,7 +25,7 @@ public final class OreDrops {
     }
 
     @SubscribeEvent
-    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+    public static void onBlockBreak(BreakBlockEvent event) {
         BlockState state = event.getState();
         Block broken = state.getBlock();
 
@@ -39,7 +39,8 @@ public final class OreDrops {
             return;
         }
 
-        if (!(event.getLevel() instanceof Level level) || level.isClientSide()) {
+        Level level = event.getLevel();
+        if (level == null || level.isClientSide()) {
             return;
         }
 
