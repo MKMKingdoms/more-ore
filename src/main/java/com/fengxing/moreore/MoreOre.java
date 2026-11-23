@@ -4,8 +4,9 @@ import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -74,13 +75,21 @@ public class MoreOre {
     public static final DeferredItem<Item> RAW_MITHRIL = ITEMS.registerSimpleItem("raw_mithril", p -> p);
 
     // ================= 工具材质 =================
+    // 修复材料标签（自己定义，对应 data/moreore/tags/item/*.json）
+    public static final TagKey<Item> TIN_INGOTS_TAG =
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MODID, "tin_ingots"));
+    public static final TagKey<Item> SILVER_INGOTS_TAG =
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MODID, "silver_ingots"));
+    public static final TagKey<Item> MITHRIL_INGOTS_TAG =
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MODID, "mithril_ingots"));
+
     // ToolMaterial(不能挖的方块标签, 耐久, 挖掘速度, 攻击力加成, 附魔适性, 可修复物品标签)
     public static final ToolMaterial TIN_MATERIAL = new ToolMaterial(
-            BlockTags.INCORRECT_FOR_STONE_TOOL, 180, 5.0F, 1.0F, 12, ItemTags.INGOTS_IRON);
+            BlockTags.INCORRECT_FOR_STONE_TOOL, 180, 5.0F, 1.0F, 12, TIN_INGOTS_TAG);
     public static final ToolMaterial SILVER_MATERIAL = new ToolMaterial(
-            BlockTags.INCORRECT_FOR_IRON_TOOL, 320, 7.0F, 1.5F, 18, ItemTags.INGOTS_IRON);
+            BlockTags.INCORRECT_FOR_IRON_TOOL, 320, 7.0F, 1.5F, 18, SILVER_INGOTS_TAG);
     public static final ToolMaterial MITHRIL_MATERIAL = new ToolMaterial(
-            BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 800, 9.0F, 2.5F, 22, ItemTags.INGOTS_IRON);
+            BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 800, 9.0F, 2.5F, 22, MITHRIL_INGOTS_TAG);
 
     // ================= 锡制工具 =================
     public static final DeferredItem<Item> TIN_PICKAXE = ITEMS.registerItem("tin_pickaxe", p -> new Item(p.pickaxe(TIN_MATERIAL, 1.0F, -2.8F)));
