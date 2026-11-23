@@ -13,5 +13,35 @@
   "item.moreore.silver_ingot": "银锭",
   "item.moreore.raw_silver": "粗银",
   "item.moreore.mithril_ingot": "秘银锭",
-  "item.moreore.raw_mithril": "粗秘银"
+  "item.moreore.raw_mithril": "粗秘银",
+
+  "item.moreore.tin_pickaxe": "锡镐",
+  "item.moreore.tin_axe": "锡斧",
+  "item.moreore.tin_shovel": "锡锹",
+  "item.moreore.tin_hoe": "锡锄",
+  "item.moreore.tin_sword": "锡剑",
+  "item.moreore.tin_helmet": "锡头盔",
+  "item.moreore.tin_chestplate": "锡胸甲",
+  "item.moreore.tin_leggings": "锡护腿",
+  "item.moreore.tin_boots": "锡靴子",
+
+  "item.moreore.silver_pickaxe": "银镐",
+  "item.moreore.silver_axe": "银斧",
+  "item.moreore.silver_shovel": "银锹",
+  "item.moreore.silver_hoe": "银锄",
+  "item.moreore.silver_sword": "银剑",
+  "item.moreore.silver_helmet": "银头盔",
+  "item.moreore.silver_chestplate": "银胸甲",
+  "item.moreore.silver_leggings": "银护腿",
+  "item.moreore.silver_boots": "银靴子",
+
+  "item.moreore.mithril_pickaxe": "秘银镐",
+  "item.moreore.mithril_axe": "秘银斧",
+  "item.moreore.mithril_shovel": "秘银锹",
+  "item.moreore.mithril_hoe": "秘银锄",
+  "item.moreore.mithril_sword": "秘银剑",
+  "item.moreore.mithril_helmet": "秘银头盔",
+  "item.moreore.mithril_chestplate": "秘银胸甲",
+  "item.moreore.mithril_leggings": "秘银护腿",
+  "item.moreore.mithril_boots": "秘银靴子"
 }
