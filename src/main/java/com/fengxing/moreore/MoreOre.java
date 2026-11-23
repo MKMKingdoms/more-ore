@@ -116,7 +116,6 @@ public class MoreOre {
 
     private static Item.Properties copyOf(Item template) {
         Item.Properties props = new Item.Properties();
-        props.component(DataComponents.ITEM_MODEL, template.builtInRegistryHolder().key().location());
         copyComponent(props, template, DataComponents.MAX_STACK_SIZE);
         copyComponent(props, template, DataComponents.MAX_DAMAGE);
         copyComponent(props, template, DataComponents.ATTRIBUTE_MODIFIERS);
