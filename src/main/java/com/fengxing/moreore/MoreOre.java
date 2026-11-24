@@ -2,17 +2,27 @@ package com.fengxing.moreore;
 
 import com.mojang.logging.LogUtils;
 
+import java.util.EnumMap;
+
+import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
@@ -112,6 +122,66 @@ public class MoreOre {
     public static final DeferredItem<Item> MITHRIL_HOE = ITEMS.registerItem("mithril_hoe", p -> new Item(p.hoe(MITHRIL_MATERIAL, -2, -2.0F)));
     public static final DeferredItem<Item> MITHRIL_SWORD = ITEMS.registerItem("mithril_sword", p -> new Item(p.sword(MITHRIL_MATERIAL, 3.0F, -2.4F)));
 
+    // ================= 护甲材质 =================
+    public static final ResourceKey<EquipmentAsset> TIN_ASSET =
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(MODID, "tin"));
+    public static final ResourceKey<EquipmentAsset> SILVER_ASSET =
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(MODID, "silver"));
+    public static final ResourceKey<EquipmentAsset> MITHRIL_ASSET =
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(MODID, "mithril"));
+
+    // ArmorMaterial(耐久倍率, 各部位护甲值, 附魔适性, 穿戴音效, 韧性, 击退抗性, 修复材料, 装备贴图)
+    public static final ArmorMaterial TIN_ARMOR_MATERIAL = new ArmorMaterial(
+            10,
+            Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                map.put(ArmorItem.Type.BOOTS, 1);
+                map.put(ArmorItem.Type.LEGGINGS, 4);
+                map.put(ArmorItem.Type.CHESTPLATE, 5);
+                map.put(ArmorItem.Type.HELMET, 2);
+                map.put(ArmorItem.Type.BODY, 4);
+            }),
+            10, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, TIN_INGOTS_TAG, TIN_ASSET);
+
+    public static final ArmorMaterial SILVER_ARMOR_MATERIAL = new ArmorMaterial(
+            20,
+            Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                map.put(ArmorItem.Type.BOOTS, 2);
+                map.put(ArmorItem.Type.LEGGINGS, 5);
+                map.put(ArmorItem.Type.CHESTPLATE, 6);
+                map.put(ArmorItem.Type.HELMET, 2);
+                map.put(ArmorItem.Type.BODY, 4);
+            }),
+            18, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, SILVER_INGOTS_TAG, SILVER_ASSET);
+
+    public static final ArmorMaterial MITHRIL_ARMOR_MATERIAL = new ArmorMaterial(
+            40,
+            Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                map.put(ArmorItem.Type.BOOTS, 3);
+                map.put(ArmorItem.Type.LEGGINGS, 6);
+                map.put(ArmorItem.Type.CHESTPLATE, 8);
+                map.put(ArmorItem.Type.HELMET, 3);
+                map.put(ArmorItem.Type.BODY, 5);
+            }),
+            22, SoundEvents.ARMOR_EQUIP_GENERIC, 3.0F, 0.1F, MITHRIL_INGOTS_TAG, MITHRIL_ASSET);
+
+    // ================= 锡制装备 =================
+    public static final DeferredItem<Item> TIN_HELMET = ITEMS.registerItem("tin_helmet", p -> new Item(p.humanoidArmor(TIN_ARMOR_MATERIAL, ArmorType.HELMET)));
+    public static final DeferredItem<Item> TIN_CHESTPLATE = ITEMS.registerItem("tin_chestplate", p -> new Item(p.humanoidArmor(TIN_ARMOR_MATERIAL, ArmorType.CHESTPLATE)));
+    public static final DeferredItem<Item> TIN_LEGGINGS = ITEMS.registerItem("tin_leggings", p -> new Item(p.humanoidArmor(TIN_ARMOR_MATERIAL, ArmorType.LEGGINGS)));
+    public static final DeferredItem<Item> TIN_BOOTS = ITEMS.registerItem("tin_boots", p -> new Item(p.humanoidArmor(TIN_ARMOR_MATERIAL, ArmorType.BOOTS)));
+
+    // ================= 银制装备 =================
+    public static final DeferredItem<Item> SILVER_HELMET = ITEMS.registerItem("silver_helmet", p -> new Item(p.humanoidArmor(SILVER_ARMOR_MATERIAL, ArmorType.HELMET)));
+    public static final DeferredItem<Item> SILVER_CHESTPLATE = ITEMS.registerItem("silver_chestplate", p -> new Item(p.humanoidArmor(SILVER_ARMOR_MATERIAL, ArmorType.CHESTPLATE)));
+    public static final DeferredItem<Item> SILVER_LEGGINGS = ITEMS.registerItem("silver_leggings", p -> new Item(p.humanoidArmor(SILVER_ARMOR_MATERIAL, ArmorType.LEGGINGS)));
+    public static final DeferredItem<Item> SILVER_BOOTS = ITEMS.registerItem("silver_boots", p -> new Item(p.humanoidArmor(SILVER_ARMOR_MATERIAL, ArmorType.BOOTS)));
+
+    // ================= 秘银制装备 =================
+    public static final DeferredItem<Item> MITHRIL_HELMET = ITEMS.registerItem("mithril_helmet", p -> new Item(p.humanoidArmor(MITHRIL_ARMOR_MATERIAL, ArmorType.HELMET)));
+    public static final DeferredItem<Item> MITHRIL_CHESTPLATE = ITEMS.registerItem("mithril_chestplate", p -> new Item(p.humanoidArmor(MITHRIL_ARMOR_MATERIAL, ArmorType.CHESTPLATE)));
+    public static final DeferredItem<Item> MITHRIL_LEGGINGS = ITEMS.registerItem("mithril_leggings", p -> new Item(p.humanoidArmor(MITHRIL_ARMOR_MATERIAL, ArmorType.LEGGINGS)));
+    public static final DeferredItem<Item> MITHRIL_BOOTS = ITEMS.registerItem("mithril_boots", p -> new Item(p.humanoidArmor(MITHRIL_ARMOR_MATERIAL, ArmorType.BOOTS)));
+
     // ================= 创造页 =================
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ORE_TAB =
             TABS.register("ores", () -> CreativeModeTab.builder()
@@ -137,18 +207,30 @@ public class MoreOre {
                         output.accept(TIN_SHOVEL.get());
                         output.accept(TIN_HOE.get());
                         output.accept(TIN_SWORD.get());
+                        output.accept(TIN_HELMET.get());
+                        output.accept(TIN_CHESTPLATE.get());
+                        output.accept(TIN_LEGGINGS.get());
+                        output.accept(TIN_BOOTS.get());
 
                         output.accept(SILVER_PICKAXE.get());
                         output.accept(SILVER_AXE.get());
                         output.accept(SILVER_SHOVEL.get());
                         output.accept(SILVER_HOE.get());
                         output.accept(SILVER_SWORD.get());
+                        output.accept(SILVER_HELMET.get());
+                        output.accept(SILVER_CHESTPLATE.get());
+                        output.accept(SILVER_LEGGINGS.get());
+                        output.accept(SILVER_BOOTS.get());
 
                         output.accept(MITHRIL_PICKAXE.get());
                         output.accept(MITHRIL_AXE.get());
                         output.accept(MITHRIL_SHOVEL.get());
                         output.accept(MITHRIL_HOE.get());
                         output.accept(MITHRIL_SWORD.get());
+                        output.accept(MITHRIL_HELMET.get());
+                        output.accept(MITHRIL_CHESTPLATE.get());
+                        output.accept(MITHRIL_LEGGINGS.get());
+                        output.accept(MITHRIL_BOOTS.get());
                     })
                     .build());
 
