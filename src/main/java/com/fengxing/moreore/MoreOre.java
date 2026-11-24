@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils;
 
 import java.util.EnumMap;
 
-import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -12,7 +11,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -130,38 +128,33 @@ public class MoreOre {
     public static final ResourceKey<EquipmentAsset> MITHRIL_ASSET =
             ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(MODID, "mithril"));
 
+    /**
+     * 构造护甲值表：头 / 胸 / 腿 / 靴。
+     * 26.x 里护甲是组件化的，部位用 ArmorType 枚举。
+     */
+    private static EnumMap<ArmorType, Integer> armorMap(int helmet, int chest, int legs, int boots) {
+        EnumMap<ArmorType, Integer> map = new EnumMap<>(ArmorType.class);
+        map.put(ArmorType.HELMET, helmet);
+        map.put(ArmorType.CHESTPLATE, chest);
+        map.put(ArmorType.LEGGINGS, legs);
+        map.put(ArmorType.BOOTS, boots);
+        return map;
+    }
+
     // ArmorMaterial(耐久倍率, 各部位护甲值, 附魔适性, 穿戴音效, 韧性, 击退抗性, 修复材料, 装备贴图)
     public static final ArmorMaterial TIN_ARMOR_MATERIAL = new ArmorMaterial(
             10,
-            Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.BOOTS, 1);
-                map.put(ArmorItem.Type.LEGGINGS, 4);
-                map.put(ArmorItem.Type.CHESTPLATE, 5);
-                map.put(ArmorItem.Type.HELMET, 2);
-                map.put(ArmorItem.Type.BODY, 4);
-            }),
+            armorMap(2, 5, 4, 1),
             10, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, TIN_INGOTS_TAG, TIN_ASSET);
 
     public static final ArmorMaterial SILVER_ARMOR_MATERIAL = new ArmorMaterial(
             20,
-            Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.BOOTS, 2);
-                map.put(ArmorItem.Type.LEGGINGS, 5);
-                map.put(ArmorItem.Type.CHESTPLATE, 6);
-                map.put(ArmorItem.Type.HELMET, 2);
-                map.put(ArmorItem.Type.BODY, 4);
-            }),
+            armorMap(2, 6, 5, 2),
             18, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, SILVER_INGOTS_TAG, SILVER_ASSET);
 
     public static final ArmorMaterial MITHRIL_ARMOR_MATERIAL = new ArmorMaterial(
             40,
-            Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.BOOTS, 3);
-                map.put(ArmorItem.Type.LEGGINGS, 6);
-                map.put(ArmorItem.Type.CHESTPLATE, 8);
-                map.put(ArmorItem.Type.HELMET, 3);
-                map.put(ArmorItem.Type.BODY, 5);
-            }),
+            armorMap(3, 8, 6, 3),
             22, SoundEvents.ARMOR_EQUIP_GENERIC, 3.0F, 0.1F, MITHRIL_INGOTS_TAG, MITHRIL_ASSET);
 
     // ================= 锡制装备 =================
