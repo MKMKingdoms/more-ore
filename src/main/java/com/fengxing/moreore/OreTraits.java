@@ -38,7 +38,7 @@ public final class OreTraits {
     @SubscribeEvent
     public static void onIncomingDamage(LivingIncomingDamageEvent event) {
         LivingEntity target = event.getEntity();
-        if (!target.getType().is(EntityTypeTags.UNDEAD)) {
+        if (!target.getType().builtInRegistryHolder().is(EntityTypeTags.UNDEAD)) {
             return;
         }
 
@@ -91,19 +91,19 @@ public final class OreTraits {
 
     private static int silverPieces(Player player) {
         int count = 0;
-        if (player.getInventory().getArmor(3).is(MoreOre.SILVER_HELMET.get())) count++;
-        if (player.getInventory().getArmor(2).is(MoreOre.SILVER_CHESTPLATE.get())) count++;
-        if (player.getInventory().getArmor(1).is(MoreOre.SILVER_LEGGINGS.get())) count++;
-        if (player.getInventory().getArmor(0).is(MoreOre.SILVER_BOOTS.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.HEAD).is(MoreOre.SILVER_HELMET.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.CHEST).is(MoreOre.SILVER_CHESTPLATE.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.LEGS).is(MoreOre.SILVER_LEGGINGS.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.FEET).is(MoreOre.SILVER_BOOTS.get())) count++;
         return count;
     }
 
     private static int mithrilPieces(Player player) {
         int count = 0;
-        if (player.getInventory().getArmor(3).is(MoreOre.MITHRIL_HELMET.get())) count++;
-        if (player.getInventory().getArmor(2).is(MoreOre.MITHRIL_CHESTPLATE.get())) count++;
-        if (player.getInventory().getArmor(1).is(MoreOre.MITHRIL_LEGGINGS.get())) count++;
-        if (player.getInventory().getArmor(0).is(MoreOre.MITHRIL_BOOTS.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.HEAD).is(MoreOre.MITHRIL_HELMET.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.CHEST).is(MoreOre.MITHRIL_CHESTPLATE.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.LEGS).is(MoreOre.MITHRIL_LEGGINGS.get())) count++;
+        if (player.getItemBySlot(EquipmentSlot.FEET).is(MoreOre.MITHRIL_BOOTS.get())) count++;
         return count;
     }
 }
