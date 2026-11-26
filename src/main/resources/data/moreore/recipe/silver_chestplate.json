@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [ "X X", "XXX", "XXX" ],
+  "key": {
+    "X": "moreore:silver_ingot"
+  },
+  "result": { "id": "moreore:silver_chestplate", "count": 1 }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [ "X X", "X X" ],
+  "key": {
+    "X": "moreore:mithril_ingot"
+  },
+  "result": { "id": "moreore:mithril_boots", "count": 1 }
+}

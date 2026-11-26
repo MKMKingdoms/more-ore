@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [ "XX ", "X# ", " # " ],
+  "key": {
+    "X": "moreore:mithril_ingot",
+    "#": "minecraft:stick"
+  },
+  "result": { "id": "moreore:mithril_axe", "count": 1 }
+}
